@@ -1,0 +1,127 @@
+.map-ranking-panel {
+  margin-top: 18px;
+}
+
+.agent-panel-wide {
+  min-width: 0;
+}
+
+.agent-mode-toggle {
+  margin-top: 14px;
+}
+
+.agent-mode-panel {
+  margin-top: 16px;
+}
+
+.agent-status-card {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(23, 76, 68, 0.12);
+  background: rgba(255, 255, 255, 0.76);
+}
+
+.agent-status-card.is-online {
+  background: rgba(219, 233, 228, 0.76);
+}
+
+.agent-status-card.is-offline {
+  background: rgba(255, 245, 235, 0.82);
+  border-color: rgba(187, 63, 42, 0.16);
+}
+
+.agent-status-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.agent-status-head strong {
+  font-size: 16px;
+  color: #173e38;
+}
+
+.agent-status-detail,
+.agent-scope-hint {
+  margin: 8px 0 0;
+  line-height: 1.6;
+  color: #395147;
+}
+
+.agent-scope-hint {
+  font-size: 13px;
+}
+
+.recommend-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.recommend-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.recommend-chip {
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(23, 76, 68, 0.16);
+  background: rgba(255, 255, 255, 0.74);
+  color: #24443c;
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+.recommend-chip:hover {
+  transform: translateY(-1px);
+  background: rgba(219, 233, 228, 0.9);
+  border-color: rgba(23, 76, 68, 0.3);
+}
+
+.free-agent-card {
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(23, 76, 68, 0.1);
+  line-height: 1.65;
+  color: #395147;
+}
+
+.disabled-chat {
+  opacity: 0.78;
+}
+
+.disabled-button {
+  background: linear-gradient(135deg, #6d7b76, #89928f);
+  cursor: not-allowed;
+}
+
+.intensity-drivers {
+  margin-top: 14px;
+}
+
+.intensity-drivers-intro {
+  margin: 6px 0 8px;
+  line-height: 1.55;
+  color: #5a6b65;
+  font-size: 13px;
+}
+
+.intensity-drivers-description {
+  margin: 8px 0 0;
+  line-height: 1.6;
+  color: #395147;
+}
+
+@media (min-width: 1181px) {
+  .map-panel {
+    flex: 1.08;
+  }
+
+  .sidebar {
+    flex: 0.92;
+  }
+}

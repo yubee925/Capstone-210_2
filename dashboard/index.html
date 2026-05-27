@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>성동구 젠트리피케이션 대시보드</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">2-Track Prototype</p>
+          <h1>성동구 젠트리피케이션 전조 탐지 대시보드</h1>
+        </div>
+        <div class="topbar-meta">
+          <span class="pill">거시 모드 / 미시 모드</span>
+          <span class="pill accent">LLM Agent Preview</span>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="hero-kicker">성수동에서 주변으로 퍼지는 위험 신호를 추적합니다.</p>
+          <p class="hero-body">
+            최종 점수는 성동구 내부 상대 순위를 기준으로 산출하고, 보조 강도 점수는 실제 규모 차이를 읽기 위한
+            해석용 지표로 제공합니다.
+          </p>
+        </div>
+        <div class="hero-controls">
+          <div class="mode-toggle" id="modeToggle">
+            <button class="mode-button active" data-mode="macro">거시 모드</button>
+            <button class="mode-button" data-mode="micro">미시 모드</button>
+          </div>
+          <label class="select-wrap">
+            <span>행정동 선택</span>
+            <select id="dongSelect"></select>
+          </label>
+        </div>
+      </section>
+
+      <main class="layout">
+        <section class="map-panel">
+          <div class="map-stage">
+            <div class="map-header">
+              <div>
+                <p class="section-label">Interactive GIS Mock</p>
+                <h2 id="mapTitle">거시 모드: 성동구 전체 위험 분포</h2>
+              </div>
+              <div class="legend">
+                <span><i class="swatch high"></i>상</span>
+                <span><i class="swatch mid"></i>중</span>
+                <span><i class="swatch low"></i>하</span>
+              </div>
+            </div>
+            <div class="map-frame">
+              <svg id="mapSvg" viewBox="0 0 1000 860" aria-label="성동구 위험도 지도"></svg>
+              <div id="microOverlay" class="micro-overlay hidden"></div>
+            </div>
+          </div>
+
+          <div class="map-footer">
+            <div class="stat-card">
+              <span class="stat-label">최고 위험도</span>
+              <strong id="topDong">-</strong>
+              <small id="topDongMeta">-</small>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">선택 지역 요약</span>
+              <strong id="selectedSummaryTitle">-</strong>
+              <small id="selectedSummaryMeta">-</small>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">전조 해석</span>
+              <strong>순위형 점수 중심</strong>
+              <small>보조 강도 점수는 실제 크기 차이 참고용</small>
+            </div>
+          </div>
+        </section>
+
+        <aside class="sidebar">
+          <section class="panel detail-panel">
+            <div class="panel-head">
+              <p class="section-label">Selected Area</p>
+              <h3 id="detailDong">행정동을 선택하세요</h3>
+            </div>
+            <div class="score-grid">
+              <div class="score-box">
+                <span>위험도 점수</span>
+                <strong id="riskScore">-</strong>
+                <small id="riskLevel">-</small>
+              </div>
+              <div class="score-box">
+                <span>보조 강도 점수</span>
+                <strong id="intensityScore">-</strong>
+                <small id="intensityLevel">-</small>
+              </div>
+            </div>
+
+            <div class="gauge-block">
+              <div class="gauge-meta">
+                <span>전조 위험도 게이지</span>
+                <span id="gaugePercent">-</span>
+              </div>
+              <div class="gauge-track"><div id="gaugeFill" class="gauge-fill"></div></div>
+            </div>
+
+            <div class="drivers">
+              <span class="drivers-label">위험 기여 TOP 2</span>
+              <strong id="driversText">-</strong>
+            </div>
+
+            <p id="detailInterpretation" class="detail-interpretation">-</p>
+
+            <div class="metric-table" id="metricTable"></div>
+          </section>
+
+          <section class="panel agent-panel">
+            <div class="panel-head">
+              <p class="section-label">LLM Agent</p>
+              <h3>지역 맞춤 상담</h3>
+            </div>
+            <p class="agent-intro">
+              먼저 지역과 도움받고 싶은 분야를 고른 뒤 질문하세요. 에이전트는 선택된 범위의 점수와 지표를 중심으로만 답합니다.
+            </p>
+            <div class="agent-controls">
+              <label class="select-wrap">
+                <span>상담 지역</span>
+                <select id="agentDongSelect"></select>
+              </label>
+              <label class="select-wrap">
+                <span>도움 분야</span>
+                <select id="agentTopicSelect">
+                  <option value="risk_summary">위험도 해석</option>
+                  <option value="store_strategy">점포 운영 전략</option>
+                  <option value="policy_support">정책·지원 안내</option>
+                  <option value="monitoring">추적 지표 제안</option>
+                </select>
+              </label>
+            </div>
+            <div id="agentOutput" class="agent-output agent-chat">
+              <div id="agentMessages" class="agent-messages">
+                <p>상담 지역과 분야를 선택하면 이곳에 대화가 쌓입니다.</p>
+              </div>
+              <div class="agent-input-row">
+                <input id="agentInput" type="text" placeholder="예: 이 지역에서 가장 먼저 봐야 할 신호는 뭐야?" />
+                <button id="agentSendButton" class="agent-button">질문하기</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel ranking-panel">
+            <div class="panel-head">
+              <p class="section-label">Ranking</p>
+              <h3>위험도 상위 지역</h3>
+            </div>
+            <div id="rankingList" class="ranking-list"></div>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <script src="../outputs/dashboard_data.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
